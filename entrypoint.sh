@@ -5,7 +5,7 @@ WORKFLOW_FILE="$1"
 
 echo "🔧 Starting AAP workflow registration..."
 echo "🌐 AAP_HOST = $AAP_HOST"
-echo "🔐 AAP_TOKEN = [REDACTED]"
+echo "🔐 AAP_TOKEN = $AAP_TOKEN"
 echo "📄 Workflow file: $WORKFLOW_FILE"
 
 export AAP_TOKEN=$AAP_TOKEN
