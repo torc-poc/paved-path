@@ -51,12 +51,15 @@ def clear_existing_nodes(workflow_id):
         print(f"🧹 Deleting existing node {node_id}")
         requests.delete(f"{AAP_HOST}/api/v2/workflow_job_template_nodes/{node_id}/", headers=HEADERS)
 
-def create_node(workflow_id, job_template_id, identifier):
+def create_node(workflow_id, job_template_id, identifier, node_vars=None):
     payload = {
         "workflow_job_template": workflow_id,
         "unified_job_template": job_template_id,
         "identifier": identifier
     }
+    if node_vars:
+        payload["extra_data"] = node_vars
+
     response = requests.post(f"{AAP_HOST}/api/v2/workflow_job_template_nodes/", headers=HEADERS, json=payload)
     response.raise_for_status()
     return response.json()["id"]
@@ -90,7 +93,8 @@ def build_workflow(json_file):
     for node in nodes:
         jt_name = node["job_template"]
         jt_id = get_id("job_templates", jt_name)
-        node_id = create_node(workflow_id, jt_id, node["identifier"])
+        node_vars = node.get("vars", {})
+        node_id = create_node(workflow_id, jt_id, node["identifier"], node_vars)
         node_map[node["identifier"]] = node_id
         print(f"🧩 Created node '{node['identifier']}' → job_template '{jt_name}'")
 
