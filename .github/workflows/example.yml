@@ -4,15 +4,15 @@ on:
   workflow_dispatch:
 
 jobs:
-  deploy:
-    runs-on: ubuntu-latest
+  register-workflow:
+    runs-on: self-hosted
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout LOB repo
+        uses: actions/checkout@v4
 
       - name: Register AAP Workflow
-        uses: ./  # assume in same repo
+        uses: torc-poc/aap-workflow-action@v1
         with:
-          workflow_file: workflows/asp-sql-webapp_aap.json
-        env:
-          AAP_HOST: ${{ secrets.AAP_HOST }}
-          AAP_TOKEN: ${{ secrets.AAP_TOKEN }}
+          aap_url: https://abc.aap-torc.xyz
+          aap_token: ${{ secrets.AAP_TOKEN }}
+          workflow_file: compositions/asp-sql-webapp.json
