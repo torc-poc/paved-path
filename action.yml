@@ -1,0 +1,12 @@
+name: "Register AAP Workflow"
+description: "Registers an AAP workflow using a unified JSON definition"
+inputs:
+  workflow_file:
+    description: "Path to workflow JSON file"
+    required: true
+    default: "workflow.json"
+runs:
+  using: "composite"
+  steps:
+    - run: ./entrypoint.sh "${{ inputs.workflow_file }}"
+      shell: bash

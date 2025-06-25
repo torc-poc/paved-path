@@ -1,0 +1,18 @@
+name: Register AAP Workflow
+
+on:
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Register AAP Workflow
+        uses: ./  # assume in same repo
+        with:
+          workflow_file: workflows/asp-sql-webapp_aap.json
+        env:
+          AAP_HOST: ${{ secrets.AAP_HOST }}
+          AAP_TOKEN: ${{ secrets.AAP_TOKEN }}
