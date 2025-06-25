@@ -14,6 +14,15 @@ This GitHub Action registers a workflow with Ansible Automation Platform using a
 
 ```yaml
 name: Register Paved Path
+=======
+## Usage
+
+This GitHub Action triggers AAP to create or update a Workflow Job Template based on a composition file and unified job templates.
+
+### Minimal Example (External Usage)
+
+name: Register AAP Workflow
+
 on:
   workflow_dispatch:
 
@@ -21,13 +30,10 @@ jobs:
   register-workflow:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout LOB repo
-        uses: actions/checkout@v4
-
       - name: Register AAP Workflow
-        uses: torc-poc/paved-path@main
+        uses: torc-poc/aap-workflow-action@v1
         with:
           aap_url: https://abc.aap-torc.xyz
           aap_token: ${{ secrets.AAP_TOKEN }}
-          workflow_file: compositions/asp-sql-webapp-aap.json
+          workflow_file: compositions/asp-sql-webapp.json
 ```
