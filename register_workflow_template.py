@@ -5,7 +5,7 @@ import sys
 
 AAP_HOST = os.environ["AAP_HOST"]
 AAP_TOKEN = os.environ["AAP_TOKEN"]
-ORG_NAME = os.getenv("AAP_ORG", "Default")
+ORG_NAME = os.getenv("AAP_ORG", "TORC")
 
 HEADERS = {
     "Content-Type": "application/json",
