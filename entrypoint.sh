@@ -8,4 +8,6 @@ echo "🌐 AAP_HOST = $AAP_HOST"
 echo "🔐 AAP_TOKEN = [REDACTED]"
 echo "📄 Workflow file: $WORKFLOW_FILE"
 
+export AAP_TOKEN=$AAP_TOKEN
+
 python3 $GITHUB_ACTION_PATH/register_workflow_template.py "$WORKFLOW_FILE"
