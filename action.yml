@@ -1,12 +1,25 @@
 name: "Register AAP Workflow"
-description: "Registers an AAP workflow using a unified JSON definition"
+description: "Registers a workflow with Ansible Automation Platform using a unified JSON spec"
+
 inputs:
-  workflow_file:
-    description: "Path to workflow JSON file"
+  aap_url:
+    description: "Ansible Automation Platform base URL"
     required: true
-    default: "workflow.json"
+  aap_token:
+    description: "AAP API token"
+    required: true
+  workflow_file:
+    description: "Path to the unified workflow JSON file"
+    required: true
+
 runs:
   using: "composite"
   steps:
-    - run: ./entrypoint.sh "${{ inputs.workflow_file }}"
+    - run: |
+        echo "📥 Using workflow file: ${{ inputs.workflow_file }}"
+        chmod +x $GITHUB_ACTION_PATH/entrypoint.sh
+        $GITHUB_ACTION_PATH/entrypoint.sh "${{ inputs.workflow_file }}"
       shell: bash
+      env:
+        AAP_HOST: ${{ inputs.aap_url }}
+        AAP_TOKEN: ${{ inputs.aap_token }}
