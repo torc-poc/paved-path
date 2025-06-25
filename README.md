@@ -16,23 +16,29 @@ The following **must** be set in your GitHub workflow or repo secrets:
 ## 🧪 Example Usage
 
 ```yaml
+## Usage
+
+This GitHub Action triggers AAP to create or update a Workflow Job Template based on a composition file and unified job templates.
+
+### Minimal Example (External Usage)
+
+```yaml
 name: Register AAP Workflow
 
 on:
   workflow_dispatch:
 
 jobs:
-  register:
+  register-workflow:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout LOB repo
+        uses: actions/checkout@v4
 
-      - name: Use AAP Workflow Action
-        uses: ./  # path to this action repo
+      - name: Register AAP Workflow
+        uses: torc-poc/aap-workflow-action@v1
         with:
-          workflow_file: workflows/asp-sql-webapp_aap.json
-        env:
-          AAP_HOST: ${{ secrets.AAP_HOST }}
-          AAP_TOKEN: ${{ secrets.AAP_TOKEN }}
+          aap_url: https://abc.aap-torc.xyz
+          aap_token: ${{ secrets.AAP_TOKEN }}
+          workflow_file: compositions/asp-sql-webapp.json
 ```
-# paved-path
