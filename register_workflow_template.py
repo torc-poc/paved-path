@@ -29,7 +29,8 @@ def create_or_update_workflow(name, org_id, inventory_id, description, extra_var
         "organization": org_id,
         "inventory": inventory_id,
         "description": description,
-        "extra_vars": json.dumps(extra_vars)
+        "extra_vars": json.dumps(extra_vars),
+        "labels": ["torc"]
     }
 
     if results:
