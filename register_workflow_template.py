@@ -30,7 +30,7 @@ def create_or_update_workflow(name, org_id, inventory_id, description, extra_var
         "inventory": inventory_id,
         "description": description,
         "extra_vars": json.dumps(extra_vars),
-        "labels": ["torc"]
+        "ask_variables_on_launch": True
     }
 
     if results:
