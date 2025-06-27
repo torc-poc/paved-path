@@ -9,17 +9,33 @@ inputs:
     description: "AAP API token"
     required: true
   workflow_file:
-    description: "Path to the unified workflow JSON file"
+    description: "Path to the unified workflow JSON file relative to the caller repo"
     required: true
 
 runs:
   using: "composite"
   steps:
-    - run: |
-        echo "📥 Using workflow file: ${{ inputs.workflow_file }}"
-        chmod +x $GITHUB_ACTION_PATH/entrypoint.sh
-        $GITHUB_ACTION_PATH/entrypoint.sh "${{ inputs.workflow_file }}"
+    - name: Debug context and validate file
       shell: bash
+      run: |
+        echo "📂 Current working directory: $(pwd)"
+        echo "📁 Listing workspace contents:"
+        ls -la .
+        echo "📥 Using workflow file: '${{ inputs.workflow_file }}'"
+
+        if [[ ! -f "${{ inputs.workflow_file }}" ]]; then
+          echo "❌ ERROR: Workflow file '${{ inputs.workflow_file }}' not found in workspace."
+          echo "✅ Make sure you ran actions/checkout before using this action."
+          exit 1
+        fi
+
+    - name: Ensure script is executable
+      shell: bash
+      run: chmod +x "${{ github.action_path }}/entrypoint.sh"
+
+    - name: Run workflow registration
+      shell: bash
+      run: "${{ github.action_path }}/entrypoint.sh '${{ inputs.workflow_file }}'"
       env:
         AAP_HOST: ${{ inputs.aap_url }}
         AAP_TOKEN: ${{ inputs.aap_token }}
